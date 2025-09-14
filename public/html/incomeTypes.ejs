@@ -1,0 +1,101 @@
+<div id="catalog-container" class="catalog-container">
+    <div class="header">
+        <h2>Catálogo de Tipos de Ingreso</h2>
+    </div>
+
+    <div class="filter-pane">
+        <div class="filter-group">
+            <label for="id-filter">ID</label>
+            <input type="text" id="id-filter" name="id-filter">
+        </div>
+        <div class="filter-group">
+            <label for="name-filter">Nombre</label>
+            <input type="text" id="name-filter" name="name-filter">
+        </div>
+        <div class="button-group">
+            <button id="clear-btn"><img src="../img/filter.svg" alt="Limpiar">Limpiar</button>
+            <button id="search-btn" class="action-button"><img src="../img/search.svg" alt="Buscar">Buscar</button>
+        </div>
+    </div>
+
+    <div id="search-results" class="hidden">
+        <div id="loading-indicator" class="hidden">
+            <div class="loader"></div>
+            <p>Cargando resultados...</p>
+        </div>
+        <div id="results-header" class="results-header hidden">
+            <div id="results-count-message" class="hidden"></div>
+            <button id="add-btn" class="action-button"><img src="../img/add.svg" alt="Agregar">Agregar</button>
+        </div>
+        <table id="catalog-table" class="catalog-table">
+            <thead>
+                <tr>
+                    <th data-column="id">ID</th>
+                    <th data-column="name">Nombre</th>
+                    <th data-column="description">Descripción</th>
+                    <th>Editar</th>
+                    <th>Borrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+    <div id="edit-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Editar Tipo de Ingreso</h2>
+            <form id="edit-form">
+                <div class="form-group">
+                    <label for="edit-id">ID:</label>
+                    <input type="text" id="edit-id" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="edit-name">Nombre:</label>
+                    <input type="text" id="edit-name" maxlength="32" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-description">Descripción:</label>
+                    <textarea id="edit-description" maxlength="128" required></textarea>
+                </div>
+                <div class="button-group">
+                    <button type="button" id="cancel-edit-btn" class="cancel-button-style">
+                        <img src="/img/cancel.svg" alt="Cancelar" class="cancel-button-style">
+                        Cancelar
+                    </button>
+                    <button type="submit" id="save-edit-btn"  class="save-button-style">
+                        <img src="/img/save.svg" alt="Guardar" class="button-icon">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="add-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Agregar Tipo de Ingreso</h2>
+            <form id="add-form">
+                <div class="form-group">
+                    <label for="add-name">Nombre:</label>
+                    <input type="text" id="add-name" maxlength="32" required>
+                </div>
+                <div class="form-group">
+                    <label for="add-description">Descripción:</label>
+                    <textarea id="add-description" maxlength="128" required></textarea>
+                </div>
+                <div class="button-group">
+                    <button type="button" id="cancel-add-btn" class="cancel-button-style" >
+                        <img src="/img/cancel.svg" alt="Cancelar" class="cancel-button-style">
+                        Cancelar
+                    </button>
+                    <button type="submit" id="save-add-btn" class="save-button-style">
+                        <img src="/img/save.svg" alt="Guardar" class="button-icon">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

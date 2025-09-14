@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAS - Login</title>
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+    <div id="loader-wrapper">
+        <div class="loader"></div>
+        <p>Cargando...</p>
+    </div>
+    <div id="content" class="hidden">
+        <div class="login-container">
+            <div>
+                <img src="../img/OptaSmartLogo.png" alt="OptaSmart Logo" class="logo">
+                <h1>HAS</h1>
+                <h2>Herramienta de Administración y Seguimiento</h2>
+                <input type="text" id="username" placeholder="Usuario">
+                <input type="password" id="password" placeholder="Contraseña">
+                <button id="login-button">Ingresar</button>
+                <p id="error-message" style="color: red;"></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('login-button').addEventListener('click', async () => {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                window.location.href = '/main';
+            } else {
+                document.getElementById('error-message').textContent = data.message;
+            }
+        });
+
+        document.getElementById('password').addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                document.getElementById('login-button').click();
+            }
+        });
+    </script>
+    <script src="../js/script.js"></script>
+</body>
+</html>

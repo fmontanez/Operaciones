@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAS - Dashboard</title>
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+    <div id="loader-wrapper">
+        <div class="loader"></div>
+        <p>Cargando...</p>
+    </div>
+    <div id="content" class="hidden">
+        <div class="top-pane">
+            <div class="top-pane-left">
+                <img src="../img/OptaSmartLogo.png" alt="OptaSmart Logo" class="logo">
+                <div class="vertical-separator"></div>
+                <div class="title">
+                    <h1>HAS</h1>
+                    <p>Herramienta de Administración y Seguimiento</p>
+                </div>
+            </div>
+            <div class="top-pane-right">
+                <div class="date-container">
+                    <i class="fa-regular fa-calendar-days"></i>
+                    <span id="current-date"></span>
+                </div>
+                <div class="tasks-container">
+                    <img src="../img/task-complete.svg" alt="Tasks Icon" class="task-icon">
+                    <span class="task-count">4</span>
+                </div>
+                <div class="user-container">
+                    <a href="#" id="user-menu-trigger">
+                        <i class="fa-solid fa-user"></i>
+                        <span>fmontanez</span>
+                    </a>
+                    <div id="user-info-card" class="user-info-card hidden">
+                        <div class="user-info-header">
+                            <div class="user-initials">FM</div>
+                            <div class="user-details">
+                                <p class="user-name">Francisco Montañez</p>
+                                <p class="user-position">CEO</p>
+                            </div>
+                        </div>
+                        <div class="user-menu">
+                            <a href="#" class="user-menu-item">
+                                <img src="../img/user.svg" alt="User Icon">
+                                <span>Mis Datos</span>
+                            </a>
+                            <a href="#" id="logout-btn" class="user-menu-item">
+                                <img src="../img/turn-off.svg" alt="Turn Off Icon">
+                                <span>Cerrar Sesión</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="toggle-top-pane" class="toggle-pane-btn"><i class="fa-solid fa-chevron-up"></i></button>
+        </div>
+        <div class="content-wrapper">
+            <div class="sidebar">
+                <button id="toggle-sidebar" class="toggle-pane-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                <ul class="menu">
+                    <li><a href="#"><img src="../img/operations.svg" alt="Operaciones Icon" class="menu-icon">Operaciones</a>
+                        <ul class="submenu">
+                            <li><a href="#">Proyectos</a></li>
+                            <li><a href="#">Tareas</a></li>
+                            <li><a href="#">Mis Pendientes</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><img src="../img/human-resources.svg" alt="Recursos Humanos Icon" class="menu-icon">Recursos Humanos</a>
+                        <ul class="submenu">
+                            <li><a href="#">Catalogo de Empleados</a></li>
+                            <li><a href="#">Vacaciones</a></li>
+                            <li><a href="#">Aumentos</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><img src="../img/management.svg" alt="Administración Icon" class="menu-icon">Administración</a>
+                        <ul class="submenu">
+                            <li><a href="#">Usuarios</a></li>
+                            <li><a href="#">Proyectos</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><img src="../img/catalogues.svg" alt="Catálogos Icon" class="menu-icon">Catálogos</a>
+                        <ul class="submenu">
+                            <li><a href="#">Tipos de Usuario</a></li>
+                            <li><a href="#">Roles</a></li>
+                            <li><a href="#">Niveles</a></li>
+                            <li><a href="#">Relacion Laboral</a></li>
+                            <li><a href="#">Tipo de Ingresos</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div id="main-content-area" class="main-content">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+    <script src="../js/main.js"></script>
+</body>
+</html>

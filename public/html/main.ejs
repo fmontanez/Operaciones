@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAS - Dashboard</title>
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+    <div id="loader-wrapper">
+        <div class="loader"></div>
+        <p>Cargando...</p>
+    </div>
+    <div id="content" class="hidden">
+        <div class="top-pane">
+            <div class="top-pane-left">
+                <img src="../img/OptaSmartLogo.png" alt="OptaSmart Logo" class="logo" id="logo">
+                <div class="vertical-separator"></div>
+                <div class="title">
+                    <h1>HAS</h1>
+                    <p>Herramienta de Administración y Seguimiento</p>
+                </div>
+            </div>
+            <div class="top-pane-right">
+                <div class="date-container">
+                    <i class="fa-regular fa-calendar-days"></i>
+                    <span id="current-date"></span>
+                </div>
+                <div class="tasks-container">
+                    <img src="../img/task-complete.svg" alt="Tasks Icon" class="task-icon">
+                    <span class="task-count">4</span>
+                </div>
+                <div class="user-container">
+                    <a href="#" id="user-menu-trigger">
+                        <i class="fa-solid fa-user"></i>
+                        <span><%= user.username %></span>
+                    </a>
+                    <div id="user-info-card" class="user-info-card hidden">
+                        <div class="user-info-header">
+                            <div class="user-initials"><%= user.initials %></div>
+                            <div class="user-details">
+                                <p class="user-name"><%= user.displayName %></p>
+                                <p class="user-position"><%= user.role %></p>
+                            </div>
+                        </div>
+                        <div class="user-menu">
+                            <a href="#" class="user-menu-item">
+                                <img src="../img/user.svg" alt="User Icon">
+                                <span>Mis Datos</span>
+                            </a>
+                            <a href="/logout" id="logout-btn" class="user-menu-item">
+                                <img src="../img/turn-off.svg" alt="Turn Off Icon">
+                                <span>Cerrar Sesión</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="toggle-top-pane" class="toggle-pane-btn"><i class="fa-solid fa-chevron-up"></i></button>
+        </div>
+        <div class="content-wrapper">
+            <div class="sidebar">
+                <button id="toggle-sidebar" class="toggle-pane-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                <ul class="menu">
+                    <% menu.forEach(item => { %>
+                        <li>
+                            <a href="#">
+                                <img src="../img/<%= item.menu_icon %>" alt="<%= item.menu_alt %>" class="menu-icon">
+                                <%= item.menu_label %>
+                            </a>
+                            <% if (item.children && item.children.length > 0) { %>
+                                <ul class="submenu">
+                                    <% item.children.forEach(child => { %>
+                                        <li><a href="<%= child.menu_action %>"><%= child.menu_label %></a></li>
+                                    <% }); %>
+                                </ul>
+                            <% } %>
+                        </li>
+                    <% }); %>
+                </ul>
+            </div>
+            <div id="main-content-area" class="main-content">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,440 @@
+<div id="catalog-container" class="catalog-container">
+    <div class="header">
+        <h2>Administración de Empleados</h2>
+    </div>
+
+    <div class="filter-pane">
+        <div class="filter-group">
+            <label for="name-filter">Nombre</label>
+            <input type="text" id="name-filter" name="name-filter">
+        </div>
+        <div class="filter-group">
+            <label for="taxId-filter">RFC</label>
+            <input type="text" id="taxId-filter" name="taxId-filter">
+        </div>
+        <div class="filter-group">
+            <label for="govermentCode-filter">CURP</label>
+            <input type="text" id="govermentCode-filter" name="govermentCode-filter">
+        </div>
+        <div class="filter-group">
+            <label for="role-filter">Rol</label>
+            <select id="role-filter" name="role-filter">
+                <option value="">Todos</option>
+                <% roles.forEach(function(role) { %>
+                    <option value="<%= role.id %>"><%= role.name %></option>
+                <% }); %>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="incomeType-filter">Tipo Ingresos</label>
+            <select id="incomeType-filter" name="incomeType-filter">
+                <option value="">Todos</option>
+                <% incomeTypes.forEach(function(incomeType) { %>
+                    <option value="<%= incomeType.id %>"><%= incomeType.name %></option>
+                <% }); %>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="level-filter">Nivel</label>
+            <select id="level-filter" name="level-filter">
+                <option value="">Todos</option>
+                <% levels.forEach(function(level) { %>
+                    <option value="<%= level.id %>"><%= level.name %></option>
+                <% }); %>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="employementRelationship-filter">Rel. Laboral</label>
+            <select id="employementRelationship-filter" name="employementRelationship-filter">
+                <option value="">Todos</option>
+                <% employementRelationships.forEach(function(relationship) { %>
+                    <option value="<%= relationship.id %>"><%= relationship.name %></option>
+                <% }); %>
+            </select>
+        </div>
+        <div class="button-group">
+            <button id="search-button" class="action-button"><img src="../img/search.svg" alt="Buscar">Buscar</button>
+        </div>
+    </div>
+
+    <div id="search-results" class="hidden">
+        <div id="loading-indicator" class="hidden">
+            <div class="loader"></div>
+            <p>Cargando resultados...</p>
+        </div>
+        <div id="results-header" class="results-header hidden">
+            <div id="results-count-message" class="hidden"></div>
+            <button id="add-button" class="action-button"><img src="../img/add.svg" alt="Agregar">Agregar</button>
+        </div>
+        <div class="top-scrollbar-container">
+            <div class="top-scrollbar-dummy"></div>
+        </div>
+        <div class="employees-table-container">
+            <table id="employees-table" class="catalog-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Ap. Paterno</th>
+                        <th>Ap. Materno</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>RFC</th>
+                        <th>CURP</th>
+                        <th>Rel. Laboral</th>
+                        <th>Tipo Ingresos</th>
+                        <th>Rol</th>
+                        <th>Nivel</th>
+                        <th>Jerarquía</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be inserted by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div id="add-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Agregar Empleado</h2>
+        <form id="add-form" novalidate>
+            <div class="tab-container">
+                <div class="tab-buttons">
+                    <button type="button" class="tab-button active" data-tab="add-personal-info">Datos Personales</button>
+                    <button type="button" class="tab-button" data-tab="add-labor-info">Datos Laborales</button>
+                    <button type="button" class="tab-button" data-tab="add-income-info">Datos Financieros</button>
+                </div>
+
+                <div id="add-personal-info" class="tab-content active">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="add-name">Nombre</label>
+                            <input type="text" id="add-name" name="name" minlength="2" maxlength="64" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-lastname">Apellido Paterno</label>
+                            <input type="text" id="add-lastname" name="lastname" minlength="2" maxlength="64" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-sec_lastname">Apellido Materno</label>
+                            <input type="text" id="add-sec_lastname" name="sec_lastname" minlength="2" maxlength="64" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-birth_date">Fecha Nac.</label>
+                            <input type="date" id="add-birth_date" name="birth_date">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-email">Email</label>
+                            <input type="email" id="add-email" name="email" minlength="8" maxlength="128" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-tax_id">RFC</label>
+                            <input type="text" id="add-tax_id" name="tax_id" minlength="10" maxlength="13" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-goverment_code">CURP</label>
+                            <input type="text" id="add-goverment_code" name="goverment_code" maxlength="18">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-id_opta">ID OPTA</label>
+                            <input type="number" id="add-id_opta" name="id_opta" max="1000">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="add-labor-info" class="tab-content">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="add-contracting_date">Fecha Contratación</label>
+                            <input type="date" id="add-contracting_date" name="contracting_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-social_security_number">NSS</label>
+                            <input type="text" id="add-social_security_number" name="social_security_number" maxlength="10" pattern="[0-9]*">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-employement_relationship_id">Rel. Laboral</label>
+                            <select id="add-employement_relationship_id" name="employement_relationship_id" required>
+                                <option value="">Seleccionar</option>
+                                <% employementRelationships.forEach(function(relationship) { %>
+                                    <option value="<%= relationship.id %>"><%= relationship.name %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-role_id">Rol</label>
+                            <select id="add-role_id" name="role_id" required>
+                                <option value="">Seleccionar</option>
+                                <% roles.forEach(function(role) { %>
+                                    <option value="<%= role.id %>"><%= role.name %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-level_id">Nivel</label>
+                            <select id="add-level_id" name="level_id" required>
+                                <option value="">Seleccionar</option>
+                                <% levels.forEach(function(level) { %>
+                                    <option value="<%= level.id %>"><%= level.name %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-hierarchie_id">Jerarquía</label>
+                            <select id="add-hierarchie_id" name="hierarchie_id" required>
+                                <option value="">Seleccionar</option>
+                                <% hierarchies.forEach(function(hierarchie) { %>
+                                    <option value="<%= hierarchie.id %>"><%= hierarchie.name %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="add-income-info" class="tab-content">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="add-transfer_bank_number">CLABE</label>
+                            <input type="text" id="add-transfer_bank_number" name="transfer_bank_number" maxlength="18" pattern="[0-9]*">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-bank">Banco</label>
+                            <select id="add-bank" name="bank">
+                                <option value="">Seleccionar</option>
+                                <option value="BANAMEX">BANAMEX</option>
+                                <option value="BANCO AZTECA">BANCO AZTECA</option>
+                                <option value="BANCOPEL">BANCOPEL</option>
+                                <option value="BANREGIO">BANREGIO</option>
+                                <option value="BANORTE">BANORTE</option>
+                                <option value="BBVA">BBVA</option>
+                                <option value="HSBC">HSBC</option>
+                                <option value="SANTANDER">SANTANDER</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-id_bank">ID Banorte</label>
+                            <input type="text" id="add-id_bank" name="id_bank" maxlength="20" pattern="[0-9]*">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-income_type_id">Tipo Ingresos</label>
+                            <select id="add-income_type_id" name="income_type_id" required>
+                                <option value="">Seleccionar</option>
+                                <% incomeTypes.forEach(function(incomeType) { %>
+                                    <option value="<%= incomeType.id %>"><%= incomeType.name %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-imss_bw_gros_salary">Sueldo Quincenal IMSS bruto</label>
+                            <input type="number" id="add-imss_bw_gros_salary" name="imss_bw_gros_salary" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-imss_bw_net_salary">Sueldo Quincenal IMSS neto</label>
+                            <input type="number" id="add-imss_bw_net_salary" name="imss_bw_net_salary" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-gin_bw_net_salary">Sueldo Quincenal GIN bruto</label>
+                            <input type="number" id="add-gin_bw_net_salary" name="gin_bw_net_salary" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-monthly_bonus">Sueldo Quincenal GIN neto</label>
+                            <input type="number" id="add-monthly_bonus" name="monthly_bonus" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-assignation_bonus">Bono Asignación</label>
+                            <input type="number" id="add-assignation_bonus" name="assignation_bonus" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-total_monthly_salary">Sueldo mensual neto</label>
+                            <input type="number" id="add-total_monthly_salary" name="total_monthly_salary" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-last_rise_date">Fecha Últ. Aumento</label>
+                            <input type="date" id="add-last_rise_date" name="last_rise_date" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-group">
+                <button type="button" id="cancel-add-btn" class="cancel-button-style">Cancelar</button>
+                <button type="submit" class="save-button-style">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div id="edit-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Editar Empleado</h2>
+        <form id="edit-form" novalidate>
+            <input type="hidden" id="edit-id" name="id">
+            <div class="tab-container">
+                <div class="tab-buttons">
+                    <button type="button" class="tab-button active" data-tab="edit-personal-info">Datos Personales</button>
+                    <button type="button" class="tab-button" data-tab="edit-labor-info">Datos Laborales</button>
+                    <button type="button" class="tab-button" data-tab="edit-income-info">Datos Financieros</button>
+                </div>
+
+                <div id="edit-personal-info" class="tab-content active">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="edit-name">Nombre</label>
+                            <input type="text" id="edit-name" name="name" minlength="2" maxlength="64" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-lastname">Apellido Paterno</label>
+                            <input type="text" id="edit-lastname" name="lastname" minlength="2" maxlength="64" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-sec_lastname">Apellido Materno</label>
+                            <input type="text" id="edit-sec_lastname" name="sec_lastname" minlength="2" maxlength="64" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-birth_date">Fecha Nac.</label>
+                            <input type="date" id="edit-birth_date" name="birth_date">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-email">Email</label>
+                            <input type="email" id="edit-email" name="email" minlength="8" maxlength="128" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-tax_id">RFC</label>
+                            <input type="text" id="edit-tax_id" name="tax_id" minlength="10" maxlength="13" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-goverment_code">CURP</label>
+                            <input type="text" id="edit-goverment_code" name="goverment_code" maxlength="18">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-id_opta">ID OPTA</label>
+                            <input type="number" id="edit-id_opta" name="id_opta" max="1000">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="edit-labor-info" class="tab-content">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="edit-contracting_date">Fecha Contratación</label>
+                            <input type="date" id="edit-contracting_date" name="contracting_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-social_security_number">NSS</label>
+                            <input type="text" id="edit-social_security_number" name="social_security_number" maxlength="10" pattern="[0-9]*">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-employement_relationship_id">Rel. Laboral</label>
+                            <select id="edit-employement_relationship_id" name="employement_relationship_id" required>
+                                <option value="">Seleccionar</option>
+                                <% employementRelationships.forEach(function(relationship) { %>
+                                    <option value="<%= relationship.id %>"><%= relationship.name %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-role_id">Rol</label>
+                            <select id="edit-role_id" name="role_id" required>
+                                <option value="">Seleccionar</option>
+                                <% roles.forEach(function(role) { %>
+                                    <option value="<%= role.id %>"><%= role.name %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-level_id">Nivel</label>
+                            <select id="edit-level_id" name="level_id" required>
+                                <option value="">Seleccionar</option>
+                                <% levels.forEach(function(level) { %>
+                                    <option value="<%= level.id %>"><%= level.name %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-hierarchie_id">Jerarquía</label>
+                            <select id="edit-hierarchie_id" name="hierarchie_id" required>
+                                <option value="">Seleccionar</option>
+                                <% hierarchies.forEach(function(hierarchie) { %>
+                                    <option value="<%= hierarchie.id %>"><%= hierarchie.name %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="edit-income-info" class="tab-content">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="edit-transfer_bank_number">CLABE</label>
+                            <input type="text" id="edit-transfer_bank_number" name="transfer_bank_number" maxlength="18" pattern="[0-9]*">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-bank">Banco</label>
+                            <select id="edit-bank" name="bank">
+                                <option value="">Seleccionar</option>
+                                <option value="BANAMEX">BANAMEX</option>
+                                <option value="BANCO AZTECA">BANCO AZTECA</option>
+                                <option value="BANCOPEL">BANCOPEL</option>
+                                <option value="BANREGIO">BANREGIO</option>
+                                <option value="BANORTE">BANORTE</option>
+                                <option value="BBVA">BBVA</option>
+                                <option value="HSBC">HSBC</option>
+                                <option value="SANTANDER">SANTANDER</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-id_bank">ID Banorte</label>
+                            <input type="text" id="edit-id_bank" name="id_bank" maxlength="20" pattern="[0-9]*">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-income_type_id">Tipo Ingresos</label>
+                            <select id="edit-income_type_id" name="income_type_id" required>
+                                <option value="">Seleccionar</option>
+                                <% incomeTypes.forEach(function(incomeType) { %>
+                                    <option value="<%= incomeType.id %>"><%= incomeType.name %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-imss_bw_gros_salary">Sueldo Quincenal IMSS bruto</label>
+                            <input type="number" id="edit-imss_bw_gros_salary" name="imss_bw_gros_salary" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-imss_bw_net_salary">Sueldo Quincenal IMSS neto</label>
+                            <input type="number" id="edit-imss_bw_net_salary" name="imss_bw_net_salary" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-gin_bw_net_salary">Sueldo Quincenal GIN bruto</label>
+                            <input type="number" id="edit-gin_bw_net_salary" name="gin_bw_net_salary" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-monthly_bonus">Sueldo Quincenal GIN neto</label>
+                            <input type="number" id="edit-monthly_bonus" name="monthly_bonus" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-assignation_bonus">Bono Asignación</label>
+                            <input type="number" id="edit-assignation_bonus" name="assignation_bonus" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-total_monthly_salary">Sueldo mensual neto</label>
+                            <input type="number" id="edit-total_monthly_salary" name="total_monthly_salary" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-last_rise_date">Fecha Últ. Aumento</label>
+                            <input type="date" id="edit-last_rise_date" name="last_rise_date" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-group">
+                <button type="button" id="cancel-edit-btn" class="cancel-button-style">Cancelar</button>
+                <button type="submit" class="save-button-style">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
             fullPath = '/hierarchies';
         } else if (pageName === 'incomeTypes.ejs') {
             fullPath = '/incomeTypes';
+        } else if (pageName === 'employees.ejs') {
+            fullPath = '/employees';
         } else if (!pageName.startsWith('../html/')) {
             fullPath = '../html/' + pageName;
         }
@@ -66,6 +68,16 @@ document.addEventListener('DOMContentLoaded', function() {
                                 initializeCatalog('hierarchies', 'la', 'jerarquía');
                             }
                         }
+                    };
+                    document.body.appendChild(script);
+                } else if (pageName === 'employees.ejs') {
+                    const script = document.createElement('script');
+                    script.id = 'dynamic-script';
+                    script.src = '../js/employees.js';
+                    script.onload = () => {
+                            if (typeof initializeEmployees === 'function') {
+                                initializeEmployees();
+                            }
                     };
                     document.body.appendChild(script);
                 }

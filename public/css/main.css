@@ -480,6 +480,12 @@ th, td {
     border-radius: 5px;
 }
 
+.catalog-container .filter-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
 .catalog-container .button-group {
     display: flex;
     gap: 10px;
@@ -546,6 +552,20 @@ th, td {
     margin-bottom: 100px;
 }
 
+.employees-table-container {
+    overflow-x: auto;
+}
+
+.top-scrollbar-container {
+    overflow-x: auto;
+    height: 20px;
+}
+
+.top-scrollbar-dummy {
+    width: 2000px; /* Adjust as needed */
+    height: 1px;
+}
+
 .results-header {
     display: flex;
     justify-content: space-between;
@@ -556,6 +576,7 @@ th, td {
 .catalog-container .catalog-table {
     width: 100%;
     border-collapse: collapse;
+    display: table;
 }
 
 .catalog-container .catalog-table th,
@@ -619,15 +640,55 @@ th, td {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-    max-width: 500px;
+    width: 90%;
+    max-width: 1200px;
     border-radius: 10px;
     position: relative;
-    box-shadow: 0 44px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
     animation-duration: 0.4s
+}
+
+.tab-container {
+    width: 100%;
+}
+
+.tab-buttons {
+    display: flex;
+    border-bottom: 2px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: bold;
+    color: #003366;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.tab-button.active {
+    border-bottom: 2px solid #003366;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
 /* Add Animation */
@@ -678,12 +739,17 @@ th, td {
 }
 
 .modal-content .form-group input[type="text"],
+.modal-content .form-group input[type="email"],
+.modal-content .form-group input[type="date"],
+.modal-content .form-group input[type="number"],
+.modal-content .form-group select,
 .modal-content .form-group textarea {
-    width: calc(100% - 22px); /* Account for padding and border */
+    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
+    box-sizing: border-box;
 }
 
 .modal-content .form-group textarea {

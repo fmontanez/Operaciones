@@ -14,6 +14,9 @@ const employementRelationshipsRoutes = require('./routes/employementRelationship
 const hierarchiesRoutes = require('./routes/hierarchies');
 const incomeTypesRoutes = require('./routes/incomeTypes');
 const employeesRoutes = require('./routes/employees');
+const tutorshipsRoutes = require('./routes/tutorships');
+const customersRoutes = require('./routes/customers');
+const customerContactsRoutes = require('./routes/customer_contacts');
 
 // Middleware
 app.use(bodyParser.json());
@@ -43,8 +46,12 @@ app.use('/employementRelationships', employementRelationshipsRoutes);
 app.use('/hierarchies', hierarchiesRoutes);
 app.use('/incomeTypes', incomeTypesRoutes);
 app.use('/employees', employeesRoutes);
+app.use('/tutorships', tutorshipsRoutes);
+app.use('/customers', customersRoutes);
+app.use('/customer_contacts', customerContactsRoutes);
 
 // Start the server
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
+
 });

@@ -28,6 +28,7 @@ function initializeEmployees() {
         const incomeTypeId = document.getElementById('incomeType-filter').value;
         const levelId = document.getElementById('level-filter').value;
         const employementRelationshipId = document.getElementById('employementRelationship-filter').value;
+        const tutorId = document.getElementById('tutor-filter').value;
 
         const queryParams = new URLSearchParams({
             name,
@@ -36,7 +37,8 @@ function initializeEmployees() {
             roleId,
             incomeTypeId,
             levelId,
-            employementRelationshipId
+            employementRelationshipId,
+            tutor_id: tutorId
         });
 
         if (searchResults) searchResults.classList.remove('hidden');
@@ -141,6 +143,7 @@ function initializeEmployees() {
             document.getElementById('edit-role_id').value = employee.role_id;
             document.getElementById('edit-level_id').value = employee.level_id;
             document.getElementById('edit-hierarchie_id').value = employee.hierarchie_id;
+            document.getElementById('edit-tutor_id').value = employee.tutor_id;
             document.getElementById('edit-transfer_bank_number').value = employee.transfer_bank_number;
             document.getElementById('edit-bank').value = employee.bank;
             document.getElementById('edit-id_bank').value = employee.id_bank;

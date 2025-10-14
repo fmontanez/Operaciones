@@ -1,0 +1,76 @@
+<div id="tutorships-container" class="catalog-container">
+    <div class="header">
+        <h2>Asignación de Tutores</h2>
+    </div>
+
+    <!-- Chart Section - Now at the top -->
+    <div class="chart-section">
+        <div class="header">
+            <h3>Distribución de Tutorías</h3>
+        </div>
+        <div class="chart-container">
+            <canvas id="tutor-chart"></canvas>
+        </div>
+    </div>
+
+    <!-- Search Filter Pane -->
+    <div class="filter-pane">
+        <div class="filter-group">
+            <label for="name-filter">Nombre del Empleado</label>
+            <input type="text" id="name-filter" name="name-filter" placeholder="Buscar por nombre, apellido paterno o materno">
+        </div>
+        <div class="button-group">
+            <button id="search-button" class="action-button"><img src="/img/search.svg" alt="Buscar">Buscar</button>
+            <button id="clear-button" class="action-button clear-btn"><img src="/img/cancel.svg" alt="Limpiar">Limpiar</button>
+        </div>
+    </div>
+
+    <!-- Search Results Section -->
+    <div id="search-results" class="hidden">
+        <div id="loading-indicator" class="hidden">
+            <div class="loader"></div>
+            <p>Cargando resultados...</p>
+        </div>
+        <div id="results-header" class="results-header hidden">
+            <div id="results-count-message" class="hidden"></div>
+        </div>
+        <div class="employees-table-container">
+            <table id="employees-table" class="catalog-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tutor Actual</th>
+                        <th>Asignar/Modificar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be inserted by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Assign Tutor Modal -->
+<div id="assign-tutor-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Asignar Tutor</h2>
+        <form id="assign-tutor-form">
+            <input type="hidden" id="employee-id" name="employee_id">
+            <div class="form-group">
+                <label for="tutor-select">Tutor</label>
+                <select id="tutor-select" name="tutor_id" required>
+                    <option value="">Seleccionar</option>
+                    <% tutors.forEach(function(tutor) { %>
+                        <option value="<%= tutor.tutor_id %>"><%= tutor.tutor_name %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="button-group">
+                <button type="button" class="cancel-button-style">Cancelar</button>
+                <button type="submit" class="save-button-style">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>

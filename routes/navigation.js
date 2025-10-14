@@ -37,7 +37,7 @@ router.get('/main', async (req, res) => {
             }
 
            res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-            res.render('main', { user: req.session.user, menu });
+            res.render('main', { user: req.session.user, menu, page: 'dashboard' });
         } catch (error) {
             console.error('Error fetching menu items:', error);
             res.status(500).send('Internal Server Error');

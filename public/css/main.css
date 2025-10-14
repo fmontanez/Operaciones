@@ -461,6 +461,7 @@ th, td {
     display: flex;
     gap: 20px;
     align-items: flex-end;
+    flex-wrap: wrap;
 }
 
 .catalog-container .filter-group {
@@ -903,4 +904,46 @@ th, td {
 
 .force-hide {
     display: none !important;
+}
+
+
+/* Badge styles for roles */
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    margin: 2px;
+    background-color: #6699CC;
+    color: white;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Multi-select styles */
+select[multiple] {
+    min-height: 120px;
+    padding: 8px;
+}
+
+select[multiple] option {
+    padding: 6px;
+    margin: 2px 0;
+}
+
+select[multiple] option:checked {
+    background-color: #6699CC !important;
+    color: white;
+}
+
+/* Full width form group for textareas */
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+    font-size: 12px;
+    font-style: italic;
 }

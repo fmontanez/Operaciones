@@ -1,0 +1,146 @@
+<div id="catalog-container" class="catalog-container">
+    <div class="header">
+        <h2>Administración de Clientes</h2>
+    </div>
+
+    <div class="filter-pane">
+        <div class="filter-group">
+            <label for="name-filter">Nombre</label>
+            <input type="text" id="name-filter" name="name-filter" placeholder="Buscar en nombre o razón social">
+        </div>
+        <div class="filter-group">
+            <label for="taxCode-filter">RFC</label>
+            <input type="text" id="taxCode-filter" name="taxCode-filter">
+        </div>
+        <div class="button-group">
+            <button id="search-button" class="action-button"><img src="/img/search.svg" alt="Buscar">Buscar</button>
+        </div>
+    </div>
+
+    <div id="search-results" class="hidden">
+        <div id="loading-indicator" class="hidden">
+            <div class="loader"></div>
+            <p>Cargando resultados...</p>
+        </div>
+        <div id="results-header" class="results-header hidden">
+            <div id="results-count-message" class="hidden"></div>
+            <button id="add-button" class="action-button"><img src="/img/add.svg" alt="Agregar">Agregar</button>
+        </div>
+        <div class="top-scrollbar-container">
+            <div class="top-scrollbar-dummy"></div>
+        </div>
+        <div class="customers-table-container">
+            <table id="customers-table" class="catalog-table">
+                <thead>
+                    <tr>
+                        <th>ID Cliente</th>
+                        <th>Nombre</th>
+                        <th>Razón Social</th>
+                        <th>RFC</th>
+                        <th>País</th>
+                        <th>Moneda de Facturación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be inserted by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div id="add-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Agregar Cliente</h2>
+        <form id="add-form" novalidate>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="add-name">Nombre *</label>
+                    <input type="text" id="add-name" name="name" minlength="2" maxlength="255" required>
+                </div>
+                <div class="form-group">
+                    <label for="add-legal_name">Razón Social *</label>
+                    <input type="text" id="add-legal_name" name="legal_name" minlength="2" maxlength="255" required>
+                </div>
+                <div class="form-group">
+                    <label for="add-tax_code">RFC</label>
+                    <input type="text" id="add-tax_code" name="tax_code" maxlength="255">
+                </div>
+                <div class="form-group">
+                    <label for="add-country_id">País *</label>
+                    <select id="add-country_id" name="country_id" required>
+                        <option value="">Seleccionar</option>
+                        <% countries.forEach(function(country) { %>
+                            <option value="<%= country.id %>"><%= country.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="add-invoice_currency_id">Moneda de Facturación *</label>
+                    <select id="add-invoice_currency_id" name="invoice_currency_id" required>
+                        <option value="">Seleccionar</option>
+                        <% currencies.forEach(function(currency) { %>
+                            <option value="<%= currency.id %>"><%= currency.code %> - <%= currency.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+            <div class="button-group">
+                <button type="button" id="cancel-add-btn" class="cancel-button-style">Cancelar</button>
+                <button type="submit" class="save-button-style">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div id="edit-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Editar Cliente</h2>
+        <form id="edit-form" novalidate>
+            <input type="hidden" id="edit-customer_id" name="customer_id">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="edit-name">Nombre *</label>
+                    <input type="text" id="edit-name" name="name" minlength="2" maxlength="255" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-legal_name">Razón Social *</label>
+                    <input type="text" id="edit-legal_name" name="legal_name" minlength="2" maxlength="255" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-tax_code">RFC</label>
+                    <input type="text" id="edit-tax_code" name="tax_code" maxlength="255">
+                </div>
+                <div class="form-group">
+                    <label for="edit-country_id">País *</label>
+                    <select id="edit-country_id" name="country_id" required>
+                        <option value="">Seleccionar</option>
+                        <% countries.forEach(function(country) { %>
+                            <option value="<%= country.id %>"><%= country.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-invoice_currency_id">Moneda de Facturación *</label>
+                    <select id="edit-invoice_currency_id" name="invoice_currency_id" required>
+                        <option value="">Seleccionar</option>
+                        <% currencies.forEach(function(currency) { %>
+                            <option value="<%= currency.id %>"><%= currency.code %> - <%= currency.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+            <div class="button-group">
+                <button type="button" id="cancel-edit-btn" class="cancel-button-style">Cancelar</button>
+                <button type="submit" class="save-button-style">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/customers.js"></script>

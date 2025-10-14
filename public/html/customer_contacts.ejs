@@ -1,0 +1,165 @@
+<div id="catalog-container" class="catalog-container">
+    <div class="header">
+        <h2>Contactos Clientes</h2>
+    </div>
+
+    <div class="filter-pane">
+        <div class="filter-group">
+            <label for="nombre-filter">Nombre</label>
+            <input type="text" id="nombre-filter" name="nombre-filter" placeholder="Buscar por nombre...">
+        </div>
+        <div class="filter-group">
+            <label for="role-filter">Rol</label>
+            <select id="role-filter" name="role-filter">
+                <option value="">Todos</option>
+                <% customerRoles.forEach(function(role) { %>
+                    <option value="<%= role.id %>"><%= role.name %></option>
+                <% }); %>
+            </select>
+        </div>
+        <div class="button-group">
+            <button id="search-button" class="action-button"><img src="/img/search.svg" alt="Buscar">Buscar</button>
+        </div>
+    </div>
+
+    <div id="search-results" class="hidden">
+        <div id="loading-indicator" class="hidden">
+            <div class="loader"></div>
+            <p>Cargando resultados...</p>
+        </div>
+        <div id="results-header" class="results-header hidden">
+            <div id="results-count-message" class="hidden"></div>
+            <button id="add-button" class="action-button"><img src="/img/add.svg" alt="Agregar">Agregar Contacto</button>
+        </div>
+        <div class="top-scrollbar-container">
+            <div class="top-scrollbar-dummy"></div>
+        </div>
+        <div class="customers-table-container">
+            <table id="contacts-table" class="catalog-table">
+                <thead>
+                    <tr>
+                        <th>Nombre Completo</th>
+                        <th>Cliente</th>
+                        <th>Email</th>
+                        <th>Roles</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be inserted by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div id="add-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Agregar Contacto</h2>
+        <form id="add-form" novalidate>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="add-customer_id">Cliente *</label>
+                    <select id="add-customer_id" name="customer_id" required>
+                        <option value="">Seleccionar</option>
+                        <% customers.forEach(function(customer) { %>
+                            <option value="<%= customer.customer_id %>"><%= customer.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="add-name">Nombre *</label>
+                    <input type="text" id="add-name" name="name" minlength="2" maxlength="255" required>
+                </div>
+                <div class="form-group">
+                    <label for="add-lastname">Apellido Paterno *</label>
+                    <input type="text" id="add-lastname" name="lastname" minlength="2" maxlength="255" required>
+                </div>
+                <div class="form-group">
+                    <label for="add-sec_lastname">Apellido Materno</label>
+                    <input type="text" id="add-sec_lastname" name="sec_lastname" maxlength="255">
+                </div>
+                <div class="form-group">
+                    <label for="add-email">Correo Electrónico</label>
+                    <input type="email" id="add-email" name="email" maxlength="255">
+                </div>
+                <div class="form-group">
+                    <label for="add-roles">Roles *</label>
+                    <select id="add-roles" name="roles" multiple required size="5">
+                        <% customerRoles.forEach(function(role) { %>
+                            <option value="<%= role.id %>"><%= role.name %></option>
+                        <% }); %>
+                    </select>
+                    <small>Mantén presionado Ctrl (Cmd en Mac) para seleccionar múltiples roles</small>
+                </div>
+                <div class="form-group full-width">
+                    <label for="add-notes">Notas</label>
+                    <textarea id="add-notes" name="notes" maxlength="2000" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="button-group">
+                <button type="button" id="cancel-add-btn" class="cancel-button-style">Cancelar</button>
+                <button type="submit" class="save-button-style">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div id="edit-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Editar Contacto</h2>
+        <form id="edit-form" novalidate>
+            <input type="hidden" id="edit-id" name="id">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="edit-customer_id">Cliente *</label>
+                    <select id="edit-customer_id" name="customer_id" required>
+                        <option value="">Seleccionar</option>
+                        <% customers.forEach(function(customer) { %>
+                            <option value="<%= customer.customer_id %>"><%= customer.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-name">Nombre *</label>
+                    <input type="text" id="edit-name" name="name" minlength="2" maxlength="255" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-lastname">Apellido Paterno *</label>
+                    <input type="text" id="edit-lastname" name="lastname" minlength="2" maxlength="255" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-sec_lastname">Apellido Materno</label>
+                    <input type="text" id="edit-sec_lastname" name="sec_lastname" maxlength="255">
+                </div>
+                <div class="form-group">
+                    <label for="edit-email">Correo Electrónico</label>
+                    <input type="email" id="edit-email" name="email" maxlength="255">
+                </div>
+                <div class="form-group">
+                    <label for="edit-roles">Roles *</label>
+                    <select id="edit-roles" name="roles" multiple required size="5">
+                        <% customerRoles.forEach(function(role) { %>
+                            <option value="<%= role.id %>"><%= role.name %></option>
+                        <% }); %>
+                    </select>
+                    <small>Mantén presionado Ctrl (Cmd en Mac) para seleccionar múltiples roles</small>
+                </div>
+                <div class="form-group full-width">
+                    <label for="edit-notes">Notas</label>
+                    <textarea id="edit-notes" name="notes" maxlength="2000" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="button-group">
+                <button type="button" id="cancel-edit-btn" class="cancel-button-style">Cancelar</button>
+                <button type="submit" class="save-button-style">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/customer_contacts.js"></script>

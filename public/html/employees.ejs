@@ -52,8 +52,17 @@
                 <% }); %>
             </select>
         </div>
+        <div class="filter-group">
+            <label for="tutor-filter">Tutor</label>
+            <select id="tutor-filter" name="tutor-filter">
+                <option value="">Todos</option>
+                <% tutors.forEach(function(tutor) { %>
+                    <option value="<%= tutor.tutor_id %>"><%= tutor.tutor_name %></option>
+                <% }); %>
+            </select>
+        </div>
         <div class="button-group">
-            <button id="search-button" class="action-button"><img src="../img/search.svg" alt="Buscar">Buscar</button>
+            <button id="search-button" class="action-button"><img src="/img/search.svg" alt="Buscar">Buscar</button>
         </div>
     </div>
 
@@ -64,7 +73,7 @@
         </div>
         <div id="results-header" class="results-header hidden">
             <div id="results-count-message" class="hidden"></div>
-            <button id="add-button" class="action-button"><img src="../img/add.svg" alt="Agregar">Agregar</button>
+            <button id="add-button" class="action-button"><img src="/img/add.svg" alt="Agregar">Agregar</button>
         </div>
         <div class="top-scrollbar-container">
             <div class="top-scrollbar-dummy"></div>
@@ -189,6 +198,15 @@
                                 <option value="">Seleccionar</option>
                                 <% hierarchies.forEach(function(hierarchie) { %>
                                     <option value="<%= hierarchie.id %>"><%= hierarchie.name %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-tutor_id">Tutor</label>
+                            <select id="add-tutor_id" name="tutor_id">
+                                <option value="">Seleccionar</option>
+                                <% tutors.forEach(function(tutor) { %>
+                                    <option value="<%= tutor.tutor_id %>"><%= tutor.tutor_name %></option>
                                 <% }); %>
                             </select>
                         </div>
@@ -361,6 +379,15 @@
                                 <option value="">Seleccionar</option>
                                 <% hierarchies.forEach(function(hierarchie) { %>
                                     <option value="<%= hierarchie.id %>"><%= hierarchie.name %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-tutor_id">Tutor</label>
+                            <select id="edit-tutor_id" name="tutor_id">
+                                <option value="">Seleccionar</option>
+                                <% tutors.forEach(function(tutor) { %>
+                                    <option value="<%= tutor.tutor_id %>"><%= tutor.tutor_name %></option>
                                 <% }); %>
                             </select>
                         </div>

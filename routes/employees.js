@@ -10,6 +10,7 @@ router.get('/', async (req, res) => {
             const employementRelationships = await pool.query('SELECT * FROM employement_relationships ORDER BY id');
             const incomeTypes = await pool.query('SELECT * FROM income_types ORDER BY id');
             const hierarchies = await pool.query('SELECT * FROM hierarchies ORDER BY id');
+            const tutors = await pool.query("SELECT e.id AS tutor_id, e.lastname||' '||e.sec_lastname||' '||e.name AS tutor_name FROM employees e INNER JOIN hierarchies h ON (e.hierarchie_id = h.id) WHERE h.tutor_allowed is true ORDER BY tutor_name");
 
             res.render('employees', {
                 user: req.session.user,
@@ -17,7 +18,8 @@ router.get('/', async (req, res) => {
                 levels: levels.rows,
                 employementRelationships: employementRelationships.rows,
                 incomeTypes: incomeTypes.rows,
-                hierarchies: hierarchies.rows
+                hierarchies: hierarchies.rows,
+                tutors: tutors.rows
             });
         } catch (error) {
             console.error('Error fetching catalog data for employees form:', error);
@@ -33,7 +35,7 @@ router.get('/search', async (req, res) => {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    const { name, taxId, govermentCode, roleId, incomeTypeId, levelId, employementRelationshipId } = req.query;
+    const { name, taxId, govermentCode, roleId, incomeTypeId, levelId, employementRelationshipId, tutor_id } = req.query;
     
     let query = `
         SELECT 
@@ -103,6 +105,12 @@ router.get('/search', async (req, res) => {
         paramIndex++;
     }
 
+    if (tutor_id) {
+        query += ` AND e.tutor_id = $${paramIndex}`;
+        params.push(tutor_id);
+        paramIndex++;
+    }
+
     query += ' ORDER BY e.lastname,e.sec_lastname,e.name ASC';
 
     try {
@@ -142,13 +150,13 @@ router.post('/', async (req, res) => {
         name, lastname, sec_lastname, birth_date, email, tax_id, goverment_code, id_opta,
         contracting_date, social_security_number, employement_relationship_id, role_id, level_id, hierarchie_id,
         transfer_bank_number, bank, id_bank, income_type_id, imss_bw_gros_salary, imss_bw_net_salary,
-        gin_bw_net_salary, monthly_bonus, assignation_bonus, total_monthly_salary, last_rise_date
+        gin_bw_net_salary, monthly_bonus, assignation_bonus, total_monthly_salary, last_rise_date,tutor_id
     } = req.body;
 
     try {
         const result = await pool.query(
-            'INSERT INTO employees (name, lastname, sec_lastname, birth_date, email, tax_id, goverment_code, id_opta, contracting_date, social_security_number, employement_relationship_id, role_id, level_id, hierarchie_id, transfer_bank_number, bank, id_bank, income_type_id, imss_bw_gros_salary, imss_bw_net_salary, gin_bw_net_salary, monthly_bonus, assignation_bonus, total_monthly_salary, last_rise_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25) RETURNING *',
-            [name, lastname, sec_lastname, birth_date, email, tax_id, goverment_code, id_opta, contracting_date, social_security_number, employement_relationship_id, role_id, level_id, hierarchie_id, transfer_bank_number, bank, id_bank, income_type_id, imss_bw_gros_salary, imss_bw_net_salary, gin_bw_net_salary, monthly_bonus, assignation_bonus, total_monthly_salary, last_rise_date]
+            'INSERT INTO employees (name, lastname, sec_lastname, birth_date, email, tax_id, goverment_code, id_opta, contracting_date, social_security_number, employement_relationship_id, role_id, level_id, hierarchie_id, transfer_bank_number, bank, id_bank, income_type_id, imss_bw_gros_salary, imss_bw_net_salary, gin_bw_net_salary, monthly_bonus, assignation_bonus, total_monthly_salary, last_rise_date, tutor_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26) RETURNING *',
+            [name, lastname, sec_lastname, birth_date, email, tax_id, goverment_code, id_opta, contracting_date, social_security_number, employement_relationship_id, role_id, level_id, hierarchie_id, transfer_bank_number, bank, id_bank, income_type_id, imss_bw_gros_salary, imss_bw_net_salary, gin_bw_net_salary, monthly_bonus, assignation_bonus, total_monthly_salary, last_rise_date, tutor_id]
         );
         res.status(201).json(result.rows[0]);
     } catch (error) {
@@ -167,13 +175,13 @@ router.put('/:id', async (req, res) => {
         name, lastname, sec_lastname, birth_date, email, tax_id, goverment_code, id_opta,
         contracting_date, social_security_number, employement_relationship_id, role_id, level_id, hierarchie_id,
         transfer_bank_number, bank, id_bank, income_type_id, imss_bw_gros_salary, imss_bw_net_salary,
-        gin_bw_net_salary, monthly_bonus, assignation_bonus, total_monthly_salary, last_rise_date
+        gin_bw_net_salary, monthly_bonus, assignation_bonus, total_monthly_salary, last_rise_date, tutor_id
     } = req.body;
 
     try {
         const result = await pool.query(
-            'UPDATE employees SET name = $1, lastname = $2, sec_lastname = $3, birth_date = $4, email = $5, tax_id = $6, goverment_code = $7, id_opta = $8, contracting_date = $9, social_security_number = $10, employement_relationship_id = $11, role_id = $12, level_id = $13, hierarchie_id = $14, transfer_bank_number = $15, bank = $16, id_bank = $17, income_type_id = $18, imss_bw_gros_salary = $19, imss_bw_net_salary = $20, gin_bw_net_salary = $21, monthly_bonus = $22, assignation_bonus = $23, total_monthly_salary = $24, last_rise_date = $25 WHERE id = $26 RETURNING *',
-            [name, lastname, sec_lastname, birth_date, email, tax_id, goverment_code, id_opta, contracting_date, social_security_number, employement_relationship_id, role_id, level_id, hierarchie_id, transfer_bank_number, bank, id_bank, income_type_id, imss_bw_gros_salary, imss_bw_net_salary, gin_bw_net_salary, monthly_bonus, assignation_bonus, total_monthly_salary, last_rise_date, id]
+            'UPDATE employees SET name = $1, lastname = $2, sec_lastname = $3, birth_date = $4, email = $5, tax_id = $6, goverment_code = $7, id_opta = $8, contracting_date = $9, social_security_number = $10, employement_relationship_id = $11, role_id = $12, level_id = $13, hierarchie_id = $14, transfer_bank_number = $15, bank = $16, id_bank = $17, income_type_id = $18, imss_bw_gros_salary = $19, imss_bw_net_salary = $20, gin_bw_net_salary = $21, monthly_bonus = $22, assignation_bonus = $23, total_monthly_salary = $24, last_rise_date = $25, tutor_id = $26 WHERE id = $27 RETURNING *',
+            [name, lastname, sec_lastname, birth_date, email, tax_id, goverment_code, id_opta, contracting_date, social_security_number, employement_relationship_id, role_id, level_id, hierarchie_id, transfer_bank_number, bank, id_bank, income_type_id, imss_bw_gros_salary, imss_bw_net_salary, gin_bw_net_salary, monthly_bonus, assignation_bonus, total_monthly_salary, last_rise_date,tutor_id, id]
         );
         res.json(result.rows[0]);
     } catch (error) {

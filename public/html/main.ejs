@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HAS - Dashboard</title>
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 </head>
 <body>
     <div id="loader-wrapper">
@@ -14,7 +16,7 @@
     <div id="content" class="hidden">
         <div class="top-pane">
             <div class="top-pane-left">
-                <img src="../img/OptaSmartLogo.png" alt="OptaSmart Logo" class="logo" id="logo">
+                <img src="/img/OptaSmartLogo.png" alt="OptaSmart Logo" class="logo" id="logo">
                 <div class="vertical-separator"></div>
                 <div class="title">
                     <h1>HAS</h1>
@@ -27,7 +29,7 @@
                     <span id="current-date"></span>
                 </div>
                 <div class="tasks-container">
-                    <img src="../img/task-complete.svg" alt="Tasks Icon" class="task-icon">
+                    <img src="/img/task-complete.svg" alt="Tasks Icon" class="task-icon">
                     <span class="task-count">4</span>
                 </div>
                 <div class="user-container">
@@ -45,11 +47,11 @@
                         </div>
                         <div class="user-menu">
                             <a href="#" class="user-menu-item">
-                                <img src="../img/user.svg" alt="User Icon">
+                                <img src="/img/user.svg" alt="User Icon">
                                 <span>Mis Datos</span>
                             </a>
                             <a href="/logout" id="logout-btn" class="user-menu-item">
-                                <img src="../img/turn-off.svg" alt="Turn Off Icon">
+                                <img src="/img/turn-off.svg" alt="Turn Off Icon">
                                 <span>Cerrar Sesión</span>
                             </a>
                         </div>
@@ -65,7 +67,7 @@
                     <% menu.forEach(item => { %>
                         <li>
                             <a href="#">
-                                <img src="../img/<%= item.menu_icon %>" alt="<%= item.menu_alt %>" class="menu-icon">
+                                <img src="/img/<%= item.menu_icon %>" alt="<%= item.menu_alt %>" class="menu-icon">
                                 <%= item.menu_label %>
                             </a>
                             <% if (item.children && item.children.length > 0) { %>
@@ -85,6 +87,9 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module" src="../js/main.js"></script>
+    <script type="module" src="/js/main.js"></script>
+    <% if (page === 'tutorships') { %>
+        <script src="/js/tutorships.js"></script>
+    <% } %>
 </body>
 </html>

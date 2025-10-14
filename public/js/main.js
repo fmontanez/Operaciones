@@ -24,6 +24,12 @@ document.addEventListener('DOMContentLoaded', function() {
             fullPath = '/incomeTypes';
         } else if (pageName === 'employees.ejs') {
             fullPath = '/employees';
+        } else if (pageName === 'tutorships.ejs') {
+            fullPath = '/tutorships';
+        } else if (pageName === 'customers.ejs' || pageName === '/customers') {
+            fullPath = '/customers';
+        } else if (pageName === 'customer_contacts.ejs' || pageName === '/customer_contacts') {
+            fullPath = '/customer_contacts';
         } else if (!pageName.startsWith('../html/')) {
             fullPath = '../html/' + pageName;
         }
@@ -77,6 +83,36 @@ document.addEventListener('DOMContentLoaded', function() {
                     script.onload = () => {
                             if (typeof initializeEmployees === 'function') {
                                 initializeEmployees();
+                            }
+                    };
+                    document.body.appendChild(script);
+                } else if (pageName === 'tutorships.ejs') {
+                    const script = document.createElement('script');
+                    script.id = 'dynamic-script';
+                    script.src = '../js/tutorships.js';
+                    script.onload = () => {
+                            if (typeof initializeTutorships === 'function') {
+                                initializeTutorships();
+                            }
+                    };
+                    document.body.appendChild(script);
+                } else if (pageName === 'customers.ejs' || pageName === '/customers') {
+                    const script = document.createElement('script');
+                    script.id = 'dynamic-script';
+                    script.src = '../js/customers.js';
+                    script.onload = () => {
+                            if (typeof initializeCustomers === 'function') {
+                                initializeCustomers();
+                            }
+                    };
+                    document.body.appendChild(script);
+                } else if (pageName === 'customer_contacts.ejs' || pageName === '/customer_contacts') {
+                    const script = document.createElement('script');
+                    script.id = 'dynamic-script';
+                    script.src = '../js/customer_contacts.js';
+                    script.onload = () => {
+                            if (typeof initializeCustomerContacts === 'function') {
+                                initializeCustomerContacts();
                             }
                     };
                     document.body.appendChild(script);
